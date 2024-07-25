@@ -1,37 +1,26 @@
-/*
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../styles/CreateLobby.css';
-import { UserContext } from './UserContext'; // Import the UserContext
-import { io } from 'socket.io-client';
-const socket = io('http://localhost:8085');
+import axios from 'axios';
+import { UserContext } from './UserContext';
+import * as Dialog from '@radix-ui/react-dialog';
+import { styled, keyframes } from '@stitches/react';
+import { blackA, mauve, violet } from '@radix-ui/colors';
 
 const CreateLobby = () => {
-  const { email } = useContext(UserContext); // Access email from UserContext
+  const { email } = useContext(UserContext);
   const [lobbyId, setLobbyId] = useState('');
   const [lobbyName, setLobbyName] = useState('');
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-     socket.on("joinRequest-not", (data) => {
-       alert(`New participant ${data.participant} joined lobby ${data.lobbyId}`);
-    })
-  }, [socket]);
 
   useEffect(() => {
     if (!email) {
       alert('User email not found. Please log in.');
-      navigate('/login'); // Redirect to login if email is not found
     }
   }, [email, navigate]);
 
-
-
   const handleCreateLobby = async () => {
     try {
-      const authToken = localStorage.getItem(email); // Get the auth token using email
+      const authToken = localStorage.getItem(email);
 
       if (!authToken) {
         alert('Authentication token not found. Please log in.');
@@ -44,115 +33,14 @@ const CreateLobby = () => {
         lowneremail: email
       }, {
         headers: {
-          'Authorization': `Bearer ${authToken}` // Include token in headers
-        }
-      });
-      if (response.status === 201) {
-        alert('Lobby created successfully');
-        socket.emit('joinLobbyOwner', { lid: lobbyId, lowneremail: email });
-
-        //console.log('Lobby created:', response.data);
-        //alert('Lobby created successfully!');
-        // Navigate to CreateMCQ page with lobbyId and email
-        navigate(`/create-mcq/${lobbyId}`, { state: { email } });
-      }
-
-    } catch (error) {
-      console.error('Failed to create lobby:', error);
-      alert(`Failed to create lobby: ${error.response ? error.response.data.message : error.message}`);
-    }
-  };
-
-  return (
-      <div className="create-lobby-container">
-        <h1>Create Lobby</h1>
-        <div className="form-group">
-          <label htmlFor="lobbyId">Lobby ID</label>
-          <input
-              type="text"
-              id="lobbyId"
-              placeholder="Enter Lobby ID"
-              value={lobbyId}
-              onChange={(e) => setLobbyId(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="lobbyName">Lobby Name</label>
-          <input
-              type="text"
-              id="lobbyName"
-              placeholder="Enter Lobby Name"
-              value={lobbyName}
-              onChange={(e) => setLobbyName(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="lobbyCreatorEmail">Lobby Creator Email</label>
-          <input
-              type="email"
-              id="lobbyCreatorEmail"
-              placeholder="Enter Your Email"
-              value={email}
-              readOnly
-          />
-        </div>
-        <button className="create-lobby-button" onClick={handleCreateLobby}>Create Lobby</button>
-      </div>
-  );
-};
-
-export default CreateLobby;
-*/
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Grid, Paper, Typography, TextField } from '@mui/material'; // Added TextField import
-
-import axios from 'axios';
-// import { io } from 'socket.io-client';
-import { UserContext } from './UserContext'; // Import the UserContext
-
-// const socket = io('http://localhost:8080');
-
-const CreateLobby = () => {
-  const { email } = useContext(UserContext); // Access email from UserContext
-  const [lobbyId, setLobbyId] = useState('');
-  const [lobbyName, setLobbyName] = useState('');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!email) {
-      alert('User email not found. Please log in.');
-     // navigate('/login'); // Redirect to login if email is not found
-    }
-  }, [email, navigate]);
-
-  const handleCreateLobby = async () => {
-    try {
-      const authToken = localStorage.getItem(email); // Get the auth token using email
-
-      if (!authToken) {
-        alert('Authentication token not found. Please log in.');
-        return;
-      }
-
-      const response = await axios.post('http://localhost:8080/lobbies/createLobby', {
-        lid: lobbyId,
-        lname: lobbyName,
-        lowneremail: email
-      }, {
-        headers: {
-          'Authorization': `Bearer ${authToken}` // Include token in headers
+          'Authorization': `Bearer ${authToken}`
         }
       });
 
       if (response.status === 201) {
         alert('Lobby created successfully');
-        // socket.emit('joinLobbyOwner', { lid: lobbyId, lowneremail: email });
-
-        // Navigate to CreateMCQ page with lobbyId and initial questionId (1)
         navigate(`/create-mcq/${lobbyId}`, { state: { email, questionId: 1 } });
       }
-
     } catch (error) {
       console.error('Failed to create lobby:', error);
       alert(`Failed to create lobby: ${error.response ? error.response.data.message : error.message}`);
@@ -160,51 +48,176 @@ const CreateLobby = () => {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
-      <Paper elevation={10} style={{ padding: 20, width: 400 }}>
-        <Typography variant="h5" align="center" gutterBottom>
-          Create Lobby
-        </Typography>
-        <form onSubmit={(e) => { e.preventDefault(); handleCreateLobby(); }}>
-          <TextField
-            label="Lobby ID"
-            placeholder="Enter lobby ID"
-            fullWidth
-            required
-            value={lobbyId}
-            onChange={(e) => setLobbyId(e.target.value)}
-            style={{ marginBottom: 16 }}
-          />
-          <TextField
-            label="Lobby Name"
-            placeholder="Enter lobby name"
-            fullWidth
-            required
-            value={lobbyName}
-            onChange={(e) => setLobbyName(e.target.value)}
-            style={{ marginBottom: 16 }}
-          />
-          <TextField
-            label="Owner Email"
-            placeholder="Enter owner email"
-            fullWidth
-            required
-            value={email}
-            readOnly
-            style={{ marginBottom: 16 }}
-          />
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            fullWidth
-          >
-            Create Lobby
-          </Button>
-        </form>
-      </Paper>
-    </Grid>
+      <Dialog.Root defaultOpen>
+        <Dialog.Portal>
+          <DialogOverlay />
+          <DialogContent>
+            <DialogTitle>Create Your Lobby</DialogTitle>
+            <Fieldset>
+              <Label htmlFor="lobbyId">Lobby ID</Label>
+              <Input id="lobbyId" value={lobbyId} onChange={(e) => setLobbyId(e.target.value)} />
+            </Fieldset>
+            <Fieldset>
+              <Label htmlFor="lobbyName">Lobby Name</Label>
+              <Input id="lobbyName" value={lobbyName} onChange={(e) => setLobbyName(e.target.value)} />
+            </Fieldset>
+            <Fieldset>
+              <Label htmlFor="ownerEmail">Owner Email</Label>
+              <Input id="ownerEmail" value={email} readOnly />
+            </Fieldset>
+            <Flex css={{ marginTop: 25, justifyContent: 'flex-end' }}>
+              <Dialog.Close asChild>
+                <Button variant="green" onClick={handleCreateLobby}>
+                  Create Lobby
+                </Button>
+              </Dialog.Close>
+            </Flex>
+            <Dialog.Close asChild>
+              <IconButton aria-label="Close">
+                ×
+              </IconButton>
+            </Dialog.Close>
+          </DialogContent>
+        </Dialog.Portal>
+      </Dialog.Root>
   );
 };
+
+const overlayShow = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
+});
+
+const contentShow = keyframes({
+  '0%': { opacity: 0, transform: 'translate(-50%, -48%) scale(.96)' },
+  '100%': { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+});
+
+const DialogOverlay = styled(Dialog.Overlay, {
+  backgroundColor: blackA.blackA9,
+  position: 'fixed',
+  inset: 0,
+  animation: `${overlayShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
+});
+
+const DialogContent = styled(Dialog.Content, {
+  backgroundColor: 'black',
+  borderRadius: 6,
+  boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '95vw',
+  maxWidth: '600px',
+  maxHeight: '90vh',
+  padding: 25,
+  animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
+  '&:focus': { outline: 'none' },
+});
+
+const DialogTitle = styled(Dialog.Title, {
+  margin: 0,
+  fontWeight: 1000,
+  color: violet.violet11,
+  fontSize: 30,
+});
+
+const DialogDescription = styled(Dialog.Description, {
+  margin: '10px 0 20px',
+  color: violet.violet11,
+  fontSize: 15,
+  lineHeight: 1.5,
+});
+
+const Flex = styled('div', { display: 'flex' });
+
+const Button = styled('button', {
+  all: 'unset',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 4,
+  padding: '0 15px',
+  fontSize: 15,
+  lineHeight: 1,
+  fontWeight: 500,
+  height: 35,
+  cursor: 'pointer',
+
+  variants: {
+    variant: {
+      violet: {
+        backgroundColor: 'white',
+        color: violet.violet11,
+        boxShadow: `0 2px 10px ${blackA.blackA7}`,
+        '&:hover': { backgroundColor: mauve.mauve3 },
+        '&:focus': { boxShadow: `0 0 0 2px black` },
+      },
+      green: {
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        '&:hover': { backgroundColor: '#45a049' },
+        '&:focus': { boxShadow: `0 0 0 2px #2E7D32` },
+      },
+    },
+  },
+
+  defaultVariants: {
+    variant: 'violet',
+  },
+});
+
+const IconButton = styled('button', {
+  all: 'unset',
+  fontFamily: 'inherit',
+  borderRadius: '100%',
+  height: 25,
+  width: 25,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: violet.violet11,
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  cursor: 'pointer',
+
+  '&:hover': { backgroundColor: violet.violet4 },
+  '&:focus': { boxShadow: `0 0 0 2px ${violet.violet7}` },
+});
+
+const Fieldset = styled('fieldset', {
+  all: 'unset',
+  display: 'flex',
+  gap: 20,
+  alignItems: 'center',
+  marginBottom: 15,
+});
+
+const Label = styled('label', {
+  fontSize: 15,
+  color: violet.violet11,
+  width: 90,
+  textAlign: 'right',
+});
+
+const Input = styled('input', {
+  all: 'unset',
+  width: '100%',
+  flex: '1',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 4,
+  padding: '0 10px',
+  fontSize: 15,
+  lineHeight: 1,
+  color: violet.violet11,
+  boxShadow: `0 0 0 1px ${violet.violet7}`,
+  height: 35,
+
+  '&:focus': { boxShadow: `0 0 0 2px ${violet.violet8}` },
+});
 
 export default CreateLobby;

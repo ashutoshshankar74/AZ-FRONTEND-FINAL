@@ -68,121 +68,121 @@ const FormMCQ = ({ lid, email, handleClose }) => {
   const btnstyle = { margin: '8px 0' };
 
   return (
-    <Grid container>
-      <Grid container justifyContent="flex-end" alignItems="center">
-        <Grid item>
-          <Link to={`/main`}>Go Back</Link>
+      <Grid container>
+        <Grid container justifyContent="flex-end" alignItems="center">
+          <Grid item>
+            <Link to={`/main`}>Go Back</Link>
+          </Grid>
         </Grid>
-      </Grid>
-      <Paper elevation={10} style={paperStyle}>
-        <Grid align='center'>
-          <h2>Create MCQ</h2>
-        </Grid>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            name='qid'
-            label='Question ID'
-            placeholder='Enter question ID'
-            fullWidth
-            required
-            value={formData.qid}
-            onChange={handleChange}
-            margin="normal"
-          />
-          <TextField
-            name='qname'
-            label='Question Name'
-            placeholder='Enter question name'
-            fullWidth
-            required
-            value={formData.qname}
-            onChange={handleChange}
-            margin="normal"
-          />
-          <TextField
-            name='qdiff'
-            label='Difficulty'
-            select
-            fullWidth
-            required
-            value={formData.qdiff}
-            onChange={handleChange}
-            margin="normal"
-          >
-            <MenuItem value="easy">Easy</MenuItem>
-            <MenuItem value="medium">Medium</MenuItem>
-            <MenuItem value="hard">Hard</MenuItem>
-          </TextField>
-          <TextField
-            name='qtopic'
-            label='Topic'
-            placeholder='Enter topic'
-            fullWidth
-            required
-            value={formData.qtopic}
-            onChange={handleChange}
-            margin="normal"
-          />
-          <TextField
-            name='qscore'
-            label='Score'
-            placeholder='Enter score'
-            fullWidth
-            required
-            type="number"
-            value={formData.qscore}
-            onChange={handleChange}
-            margin="normal"
-          />
-          <TextField
-            name='lid'
-            label='Lobby ID'
-            fullWidth
-            required
-            value={formData.lid}
-            margin="normal"
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-          {formData.qoptions.map((option, index) => (
+        <Paper elevation={10} style={paperStyle}>
+          <Grid align='center'>
+            <h2>Create MCQ</h2>
+          </Grid>
+          <form onSubmit={handleSubmit}>
             <TextField
-              key={index}
-              label={`Option ${index + 1}`}
-              placeholder={`Enter option ${index + 1}`}
-              fullWidth
-              required
-              value={option}
-              onChange={(e) => handleOptionChange(index, e.target.value)}
-              margin="normal"
+                name='qid'
+                label='Question ID'
+                placeholder='Enter question ID'
+                fullWidth
+                required
+                value={formData.qid}
+                onChange={handleChange}
+                margin="normal"
             />
-          ))}
-          <TextField
-            name='qans'
-            label='Correct Answer'
-            select
-            fullWidth
-            required
-            value={formData.qans}
-            onChange={handleChange}
-            margin="normal"
-          >
+            <TextField
+                name='qname'
+                label='Question Name'
+                placeholder='Enter question name'
+                fullWidth
+                required
+                value={formData.qname}
+                onChange={handleChange}
+                margin="normal"
+            />
+            <TextField
+                name='qdiff'
+                label='Difficulty'
+                select
+                fullWidth
+                required
+                value={formData.qdiff}
+                onChange={handleChange}
+                margin="normal"
+            >
+              <MenuItem value="easy">Easy</MenuItem>
+              <MenuItem value="medium">Medium</MenuItem>
+              <MenuItem value="hard">Hard</MenuItem>
+            </TextField>
+            <TextField
+                name='qtopic'
+                label='Topic'
+                placeholder='Enter topic'
+                fullWidth
+                required
+                value={formData.qtopic}
+                onChange={handleChange}
+                margin="normal"
+            />
+            <TextField
+                name='qscore'
+                label='Score'
+                placeholder='Enter score'
+                fullWidth
+                required
+                type="number"
+                value={formData.qscore}
+                onChange={handleChange}
+                margin="normal"
+            />
+            <TextField
+                name='lid'
+                label='Lobby ID'
+                fullWidth
+                required
+                value={formData.lid}
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+            />
             {formData.qoptions.map((option, index) => (
-              <MenuItem key={index} value={option}>{`Option ${index + 1}: ${option}`}</MenuItem>
+                <TextField
+                    key={index}
+                    label={`Option ${index + 1}`}
+                    placeholder={`Enter option ${index + 1}`}
+                    fullWidth
+                    required
+                    value={option}
+                    onChange={(e) => handleOptionChange(index, e.target.value)}
+                    margin="normal"
+                />
             ))}
-          </TextField>
-          <Button
-            type='submit'
-            color='primary'
-            variant="contained"
-            style={btnstyle}
-            fullWidth
-          >
-            Create MCQ
-          </Button>
-        </form>
-      </Paper>
-    </Grid>
+            <TextField
+                name='qans'
+                label='Correct Answer'
+                select
+                fullWidth
+                required
+                value={formData.qans}
+                onChange={handleChange}
+                margin="normal"
+            >
+              {formData.qoptions.map((option, index) => (
+                  <MenuItem key={index} value={option}>{`Option ${index + 1}: ${option}`}</MenuItem>
+              ))}
+            </TextField>
+            <Button
+                type='submit'
+                color='primary'
+                variant="contained"
+                style={btnstyle}
+                fullWidth
+            >
+              Create MCQ
+            </Button>
+          </form>
+        </Paper>
+      </Grid>
   );
 };
 
