@@ -30,7 +30,7 @@ function SignUp() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/users/signup', {
+      const response = await fetch('http://localhost:8085/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
