@@ -5,7 +5,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { UserContext } from './UserContext';
 
-const socket = io('http://localhost:8085');
+const socket = io('https://azhackathon-backend-1.onrender.com');
 
 const StartGame = () => {
   const { lobbyId } = useParams();
@@ -32,7 +32,7 @@ const StartGame = () => {
   useEffect(() => {
     const fetchLobbyDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:8085/lobbies/listLobby', {
+        const response = await axios.get('https://azhackathon-backend-1.onrender.com/lobbies/listLobby', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
@@ -119,7 +119,7 @@ const StartGame = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:8085/games/startGame', {
+      const response = await axios.post('https://azhackathon-backend-1.onrender.com/games/startGame', {
         gid: gameId, // Use the user-provided Game ID
         lid: lobbyId,
       }, {
@@ -151,7 +151,7 @@ const StartGame = () => {
 
   const handleSubmitAnswer = async () => {
     try {
-      const response = await axios.post('http://localhost:8085/games/submitAnswer', {
+      const response = await axios.post('https://azhackathon-backend-1.onrender.com/games/submitAnswer', {
         gid: gameId, // Use the user-provided Game ID
         lid: lobbyId,
         userEmail: email,
@@ -187,7 +187,7 @@ const StartGame = () => {
 
   const handleGetResult = async () => {
     try {
-      const response = await axios.post('http://localhost:8085/games/getResult', {
+      const response = await axios.post('https://azhackathon-backend-1.onrender.com/games/getResult', {
         gid: gameId, // Use the user-provided Game ID
         lid: lobbyId,
       }, {

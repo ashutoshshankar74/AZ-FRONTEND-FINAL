@@ -12,7 +12,7 @@ function LogOut() {
         }
 
         try {
-            const response = await fetch('http://localhost:8085/users/logout', {
+            const response = await fetch('https://azhackathon-backend-1.onrender.com/users/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

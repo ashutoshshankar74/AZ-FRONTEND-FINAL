@@ -27,7 +27,7 @@ const CreateLobby = () => {
         return;
       }
 
-      const response = await axios.post('http://localhost:8085/lobbies/createLobby', {
+      const response = await axios.post('https://azhackathon-backend-1.onrender.com/lobbies/createLobby', {
         lid: lobbyId,
         lname: lobbyName,
         lowneremail: email

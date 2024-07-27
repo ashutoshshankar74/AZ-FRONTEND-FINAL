@@ -31,7 +31,7 @@ const Main = () => {
 
   const fetchLobbies = async (token) => {
     try {
-      const response = await fetch('http://localhost:8085/lobbies/listLobby', {
+      const response = await fetch('https://azhackathon-backend-1.onrender.com/lobbies/listLobby', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
