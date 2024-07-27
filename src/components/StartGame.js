@@ -379,7 +379,7 @@ const StartGame = () => {
 	useEffect(() => {
 		const fetchLobbyDetails = async () => {
 			try {
-				const response = await axios.get('http://localhost:8080/lobbies/listLobby', {
+				const response = await axios.get('https://azhackathon-backend-1.onrender.com/lobbies/listLobby', {
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': `Bearer ${accessToken}`,
@@ -478,7 +478,7 @@ const StartGame = () => {
 			return;
 		}
 		try {
-			const response = await axios.post('http://localhost:8080/games/startGame', {
+			const response = await axios.post('https://azhackathon-backend-1.onrender.com/games/startGame', {
 				gid: lobbyId,
 				lid: lobbyId,
 			}, {
@@ -514,7 +514,7 @@ const StartGame = () => {
 
 	const handleSubmitAnswer = async () => {
 		try {
-			const response = await axios.post('http://localhost:8080/games/submitAnswer', {
+			const response = await axios.post('https://azhackathon-backend-1.onrender.com/games/submitAnswer', {
 				gid: lobbyId,
 				lid: lobbyId,
 				userEmail: email,
@@ -554,7 +554,7 @@ const StartGame = () => {
 
 	const handleGetResult = async () => {
 		try {
-			const response = await axios.post('http://localhost:8080/games/getResult', {
+			const response = await axios.post('https://azhackathon-backend-1.onrender.com/games/getResult', {
 				gid: lobbyId,
 				lid: lobbyId,
 			}, {
