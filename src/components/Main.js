@@ -57,8 +57,8 @@ const Main = () => {
     <div className="main-container">
       <div className="header">
         <div className="game-info">
-          <AnimatedLetters text="Quiz Combat" />
-          <p>Some description about the game.</p>
+          <AnimatedLetters text="Quiz Quest" />
+          <p>Welcome to the Game.</p>
         </div>
         <Link to="/logout">
           <button className="button logout-button">LogOut</button>
