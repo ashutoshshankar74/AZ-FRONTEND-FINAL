@@ -17,7 +17,7 @@ const JoinLobby = () => {
   }, []);
 
   const handleJoinLobby = async () => {
-    const response = await fetch('http://localhost:8085/lobbies/requestJoinLobby', {
+    const response = await fetch('https://azhackathon-backend-1.onrender.com/lobbies/requestJoinLobby', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ lid: lobbyCode, userEmail })

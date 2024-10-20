@@ -27,7 +27,7 @@ const CreateLobby = () => {
         return;
       }
 
-      const response = await axios.post('http://localhost:8085/lobbies/createLobby', {
+      const response = await axios.post('https://azhackathon-backend-1.onrender.com/lobbies/createLobby', {
         lid: lobbyId,
         lname: lobbyName,
         lowneremail: email
@@ -52,7 +52,7 @@ const CreateLobby = () => {
         <Dialog.Portal>
           <DialogOverlay />
           <DialogContent>
-            <DialogTitle>Create Your Lobby</DialogTitle>
+            <DialogTitle>Create Lobby</DialogTitle>
             <Fieldset>
               <Label htmlFor="lobbyId">Lobby ID</Label>
               <Input id="lobbyId" value={lobbyId} onChange={(e) => setLobbyId(e.target.value)} />
@@ -65,18 +65,13 @@ const CreateLobby = () => {
               <Label htmlFor="ownerEmail">Owner Email</Label>
               <Input id="ownerEmail" value={email} readOnly />
             </Fieldset>
-            <Flex css={{ marginTop: 25, justifyContent: 'flex-end' }}>
+            <Flex css={{ marginTop: 25, justifyContent: 'center' }}>
               <Dialog.Close asChild>
                 <Button variant="green" onClick={handleCreateLobby}>
                   Create Lobby
                 </Button>
               </Dialog.Close>
             </Flex>
-            <Dialog.Close asChild>
-              <IconButton aria-label="Close">
-                ×
-              </IconButton>
-            </Dialog.Close>
           </DialogContent>
         </Dialog.Portal>
       </Dialog.Root>
@@ -108,10 +103,10 @@ const DialogContent = styled(Dialog.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '95vw',
-  maxWidth: '600px',
+  width: '100vw',
+  maxWidth: '800px',
   maxHeight: '90vh',
-  padding: 25,
+  padding: 35,
   animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
   '&:focus': { outline: 'none' },
 });
@@ -120,14 +115,9 @@ const DialogTitle = styled(Dialog.Title, {
   margin: 0,
   fontWeight: 1000,
   color: violet.violet11,
-  fontSize: 30,
-});
-
-const DialogDescription = styled(Dialog.Description, {
-  margin: '10px 0 20px',
-  color: violet.violet11,
-  fontSize: 15,
-  lineHeight: 1.5,
+  fontSize: 36,
+  textAlign: 'center',
+  marginBottom: 20,
 });
 
 const Flex = styled('div', { display: 'flex' });
@@ -166,25 +156,6 @@ const Button = styled('button', {
   defaultVariants: {
     variant: 'violet',
   },
-});
-
-const IconButton = styled('button', {
-  all: 'unset',
-  fontFamily: 'inherit',
-  borderRadius: '100%',
-  height: 25,
-  width: 25,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: violet.violet11,
-  position: 'absolute',
-  top: 10,
-  right: 10,
-  cursor: 'pointer',
-
-  '&:hover': { backgroundColor: violet.violet4 },
-  '&:focus': { boxShadow: `0 0 0 2px ${violet.violet7}` },
 });
 
 const Fieldset = styled('fieldset', {

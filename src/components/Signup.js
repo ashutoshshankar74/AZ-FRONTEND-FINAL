@@ -30,10 +30,11 @@ function SignUp() {
     }
 
     try {
-      const response = await fetch('http://localhost:8085/users/signup', {
+      const response = await fetch('https://azhackathon-backend-1.onrender.com/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+
         },
         body: JSON.stringify({
           username: username,

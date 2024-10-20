@@ -28,7 +28,7 @@ const JoinLobby = () => {
     }
     try {
       const response = await axios.post(
-          'http://localhost:8085/lobbies/requestJoinLobby',
+          'https://azhackathon-backend-1.onrender.com/lobbies/requestJoinLobby',
           { lid, participant: email },
           { headers: { 'Content-Type': 'application/json' } }
       );
